@@ -10,10 +10,14 @@ while volver_menu:
     menu = int(input("QUE DESEA HACER: " \
     "\n(1) Añadir productos " \
     "\n(2) Consultar productos " \
-    "\n(3) actualizar precios " \
-    "\n(4) Eliminar productos " \
-    "\n(5) Calcular el valor total de el inventario " \
-    "\n(6) Salir del programa"))
+    "\n(3) actualizar precios "
+    "\n(4) agregar cantidad a un producto " \
+    "\n(5) Eliminar productos " \
+    "\n(6) Calcular el valor total de el inventario " \
+    "\n(7) Salir del programa\n"))
+
+    print("---"*30)
+
 
     if menu == 1:
         agregar_mas_productos = True
@@ -24,9 +28,10 @@ while volver_menu:
             cantidad = int(input("Indique la cantidad disponible del producto: \n"))
 
             inventario[nombre] = {"precio" : precio, "cantidad": cantidad}
-
-            print("     PRODUCTO        PRECIO             CANTIDAD")
+            print("---"*30)
+            print("     PRODUCTO            PRECIO                  CANTIDAD")
             mostrar_inventario(inventario, nombre)
+            print("---"*30)
             
             inco_agregar = True
             while inco_agregar:
@@ -49,13 +54,18 @@ while volver_menu:
             while produ_no_encon:
                 buscar_produ = input("Ingrese el nombre del producto que desea buscar: (si quiere ver todos los productos digite: todos) ")
                 if buscar_produ.lower() == "todos":
-                    print("     PRODUCTO        PRECIO             CANTIDAD")
+                    print("     PRODUCTO                 PRECIO             CANTIDAD")
                     mostrar_inventario(inventario, nombre)
+                    produ_no_encon = False
+                    buscar_otro_produ = False
 
                 else:
                     if buscar_produ in inventario:
                         nom_bus = inventario.get(buscar_produ)
-                        print(buscar_produ,nom_bus)
+                        precio1 = nom_bus["precio"]
+                        cantidad1 = nom_bus["cantidad"]
+
+                        print(f"{buscar_produ:<15} {precio1:<15} {cantidad1:<15}")
                         resp_inco = True
                         while resp_inco:
                             pre_buscar_otro_prod = input("Desea buscar otro producto? (si/no)")
@@ -70,8 +80,90 @@ while volver_menu:
                                 print("respuesta no valida, intentelo de nuevo")
                     else: 
                         print("Priducto no encontrado, intentelo de nuevo")
+    elif menu == 3:
+        intentelo_de_nuevo = True
+        while intentelo_de_nuevo:
+            nom_act_pre = input("Ingrese el nombre del producto al cual desea actualizar el precio")
+            if nom_act_pre in inventario:
+                act_precio_datos = inventario.get(nom_act_pre)
+                cantidad1 = act_precio_datos["cantidad"]
+                precio1 = act_precio_datos["precio"]
+                print(f"{nom_act_pre:<15} {precio1:<15}{cantidad1:<15}")
+                nuev_preci = float(input("Ingrese el precio actualizado"))
+                inventario[nom_act_pre]["precio"] = nuev_preci
+                intentelo_de_nuevo2  = True
+                while intentelo_de_nuevo2:
+                    act_otro_precio = input("Desea actualizar el precio de otro producto? (si/no) \n")
+                    if act_otro_precio == "si":
+                        print("")
+                        intentelo_de_nuevo2
+                    elif act_otro_precio == "no":
+                        intentelo_de_nuevo = False
+                        intentelo_de_nuevo2 = False
+                    else:
+                        print("respuesta incorrecta intentelo de nuevo")
+            else:
+                print("El producto no se encontrò en el diccionario, intentelo de nuevo")
+    
+    elif menu == 4:
+        agregar_mas_cant = True
+        while agregar_mas_cant:
+            ag_nombre = input("Ingrese el nombre del producto al que quiere aumentarle la cantidad en el inventario")
+            prod_ag = inventario.get(ag_nombre)
+            cantid_agregar = int(input(f"ingrese la cantidad que quiere agregarle a: {ag_nombre}"))
+            inventario[ag_nombre]["cantidad"] += cantid_agregar
+            intentelo_de_nuevo3 = True
+            while intentelo_de_nuevo3:
+                agregar_mas = input("Desea agregar mas cantidad a otro producto? (si/no)")
+                if agregar_mas.lower == "si":
+                    print("")
+                    intentelo_de_nuevo3 = False
+                elif agregar_mas.lower() == "no":
+                    agregar_mas_cant = False
+                    intentelo_de_nuevo3 = False
+                else:
+                    print("Respuesta no valida, intentelo de nuevo")
 
-           
+    elif menu == 5:
+        volver_opciones = True
+        while volver_opciones:
+            opcion = int(input("Ingrese que quiere hacer: \n" \
+                                "(1) Eliminar un producto por completo \n" \
+                                "(2) eliminar cantidad de un producto en especifico \n"
+                                "(3) Volver al menu "))
+            if opcion == 1:
+                nom_eliminar_completo = input("Ingrese el nombre del producto que quiere eliminar por completo: \n")
+                intentelo_de_nuevo4 = True
+                while intentelo_de_nuevo4:
+                    seguro = input(f"seguro que quiere eliminar {nom_eliminar_completo} por completo del inventario? (si/no)")
+                    if seguro == "si":
+                        del inventario[nom_eliminar_completo]
+                        intentelo_de_nuevo4 = False
+                        print(f"{nom_eliminar_completo} Eliminado por completo")
+                    elif seguro == "no":
+                        print("")
+                        intentelo_de_nuevo4 = False
+                    else:
+                        print("Respuesta no valida, intentelo de nuevo ")
+            elif opcion == 2: 
+                nom_eliminar_cant = input("Ingrese el nombre del producto que quiere eliminar por completo: \n")
+                
+                elm_cant_datos = inventario[nom_eliminar_cant]
+                print(f"{nom_eliminar_cant:<15} {elm_cant_datos["precio"]:<15} {elm_cant_datos["cantidad"]:<15} ")
+                cant_eliminar = int(input(f"Ingrese la cantidad que desea eliminar de {nom_eliminar_cant}"))
+                inventario[nom_eliminar_cant]["cantidad"] -=  cant_eliminar
+                act_cant_prod = inventario[nom_eliminar_cant]
+                print(f"asì quedò el producto: \n{nom_eliminar_cant:<15} {act_cant_prod["precio"]:<15} {act_cant_prod["cantidad"]:<15} ")
+            elif opcion == 3 : 
+                volver_opciones = False
+
+
+
+                
+
+        
+
+            
 
        
 
