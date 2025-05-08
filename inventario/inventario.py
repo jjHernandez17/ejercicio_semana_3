@@ -156,15 +156,18 @@ while volver_menu:
                 print(f"asì quedò el producto: \n{nom_eliminar_cant:<15} {act_cant_prod["precio"]:<15} {act_cant_prod["cantidad"]:<15} ")
             elif opcion == 3 : 
                 volver_opciones = False
-
-
-
-                
-
-        
-
-            
-
-       
-
-
+    elif menu == 6:
+        print("---" * 30)
+        print("   PRODUCTO                 PRECIO        CANTIDAD           SUBTOTAL")
+        total = 0
+        for producto, datos in inventario.items():
+            cantidad = datos.get("cantidad")
+            precio = datos.get("precio")
+            subtotal = total_multi_cada_pro(precio, cantidad)
+            print(f" {producto:<25} ${precio:<15.2f} {cantidad:<15} ${subtotal:<.2f}")
+            total = total + subtotal
+        print("---"*30)
+        print(f"TOTAL INVENTARIO: {total:49}")
+        print("---"*30)
+    elif menu == 7:
+        volver_menu = False
